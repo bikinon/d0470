@@ -94,8 +94,12 @@ public class draw0470 extends dxf12objects {
 	}
         Line(0, -flap, CUT);
 	Line(-(wside - (cofst * 2)),0, CUT);
-	  // SelectOff();
 
+        this.absMove(-l1 - wside + cofst, 0);
+        Line(0, -flap, CUT);
+	Line(wside - (cofst * 2),0, CUT);
+
+        
 	this.absMove(cofst, dmain-bofst+w1);
 	ins1=dblbend+cofst;	
 	folderflap(l1+cofst*2 ,tuckflap,0,0,ins1,ins1,tuckrad,tuckrad);
@@ -104,18 +108,19 @@ public class draw0470 extends dxf12objects {
 	Line(-(l1+cofst*2), 0, CREASE);
 
 	if (dinr+dblbend-bofst<w1) { // extra to tuck flap
-		this.absMove(cofst, dmain-bofst+w1);
-	   // SelectOn();
-		Line(0, -w1+dinr+dblbend-bofst, CUT);
-  	  // SelectOff();
+            this.absMove(cofst, dmain-bofst+w1);
+            Line(0, -w1+dinr+dblbend-bofst, CUT);
+                
+            this.absMove(-l1-cofst, dmain-bofst+w1);
+            Line(0, -w1+dinr+dblbend-bofst, CUT);               
 	}
         
-        this.absMove(-l1-cofst*2,0); // Move opposite side
+        this.absMove(-l1,0); // Move opposite side
         slotHorz = -1;
         this.Xaxis = -1;
         this.Yaxis = 1;
         this.DrawTOE(wside - cofst, slotVert);
-        this.absMove(-l1-cofst*2,0);
+        this.absMove(-l1,0);
         this.Xaxis = -1;
         this.Yaxis = 1;        
         this.DrawBtmAndFront();
@@ -251,24 +256,31 @@ public class draw0470 extends dxf12objects {
         
    // Lock holes
     if (dis < min0Lug) { // === 0 lugs ===
-      Line( -dis-cofst*2, 0, CREASE);
+      Line( -dis, 0, CREASE);
     } else if (dis < min1Lug) { // === 1 lug ===
-      Line( -y-cofst*2, 0, CREASE);
+      Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz;
       this.Yaxis = slotVert;   
       this.TheSlot(-x, slotw);
       this.Xaxis = 1 * slotHorz;
       this.Yaxis = 1;   
       //    SetCurrent( Find( "Crease" ) );
-      Line( -y-cofst*2, 0, CREASE);
+      Line( -y, 0, CREASE);
     } else if (dis>min3Lugs) { // === 3 lugs ===
-      Line( -y-cofst, 0, CREASE);
+      Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz;
       this.Yaxis = slotVert;   
       this.TheSlot(-x, slotw);
       this.Xaxis = 1 * slotHorz;
       this.Yaxis = 1;   
-      //    SetCurrent( Find( "Crease" ) ); // mid bend
+
+      Line( (-dis+x*3+y*2)/2, 0, CREASE); // mid bend
+      this.Xaxis = -1 * slotHorz;
+      this.Yaxis = slotVert;   
+      this.TheSlot(-x, slotw);
+      this.Xaxis = 1 * slotHorz;
+      this.Yaxis = 1;   
+      
       Line( (-dis+x*3+y*2)/2, 0, CREASE);
       this.Xaxis = -1 * slotHorz;
       this.Yaxis = slotVert;   
@@ -276,16 +288,9 @@ public class draw0470 extends dxf12objects {
       this.Xaxis = 1 * slotHorz;
       this.Yaxis = 1;   
       //    SetCurrent( Find( "Crease" ) );
-      Line( (-dis+x*3+y*2)/2, 0, CREASE);
-      this.Xaxis = -1 * slotHorz;
-      this.Yaxis = slotVert;   
-      this.TheSlot(-x, slotw);
-      this.Xaxis = 1 * slotHorz;
-      this.Yaxis = 1;   
-      //    SetCurrent( Find( "Crease" ) );
-      Line( -y-cofst, 0, CREASE);
+      Line( -y, 0, CREASE);
     } else { // === 2 lugs ==============
-      Line( -y-cofst, 0, CREASE);
+      Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz; // Quick fix - using slotHorz the whole thing needs re-writing
       this.Yaxis = slotVert;
       this.TheSlot(-x, slotw);
@@ -298,7 +303,7 @@ public class draw0470 extends dxf12objects {
       this.TheSlot(-x, slotw);
       this.Xaxis = 1 * slotHorz;
       this.Yaxis = 1;   
-      Line( -y-cofst, 0, CREASE);
+      Line( -y, 0, CREASE);
     }
     
     relMove(cofst, -bofstL); // move back to starting position
