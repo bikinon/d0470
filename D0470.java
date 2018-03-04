@@ -248,6 +248,7 @@ public class D0470 extends javax.swing.JFrame {
 
         oDxf.xabs = 0;
         oDxf.yabs = 0;
+        oDxf.style = this.jComboBox2.getSelectedItem().toString();
         oDxf.l = this.idLength;
         oDxf.w = this.idWidth;
         oDxf.d = this.idDepth;
@@ -261,7 +262,6 @@ public class D0470 extends javax.swing.JFrame {
         oDxf.slotType = slotVal;
 
         oDxf.unit = "M";
-        oDxf.style = "";
         oDxf.flute = flute;
         oDxf.CUT = "CUT";
         oDxf.CREASE = "CREASE";
@@ -304,7 +304,9 @@ public class D0470 extends javax.swing.JFrame {
     }//GEN-LAST:event_createDxfActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
+       if(jComboBox2.getSelectedItem()== "0470 P/S & T/S") {
+          this.txtLidFlap.setText("55");
+       } 
     }//GEN-LAST:event_jComboBox2ActionPerformed
 
     private void btnBlkSzActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBlkSzActionPerformed
@@ -315,6 +317,7 @@ public class D0470 extends javax.swing.JFrame {
         draw0470 oDxf = new draw0470();
         oDxf.unit = "M";
         oDxf.flute = flute;
+        oDxf.style = this.jComboBox2.getSelectedItem().toString();
         oDxf.l = this.idLength;
         oDxf.w = this.idWidth;
         oDxf.d = this.idDepth;
@@ -351,10 +354,12 @@ public class D0470 extends javax.swing.JFrame {
     
     // Get Allowances
     draw0470 oDxf = new draw0470();
+    oDxf.style = this.jComboBox2.getSelectedItem().toString();
     oDxf.l = 0;
     oDxf.w = 0;
     oDxf.d = 0;
     oDxf.flute = flute;
+    oDxf.tuckflap = Double.parseDouble(this.txtLidFlap.getText());
     oDxf.allowanceSetup();
     
     if (dimtype.getSelectedItem() == "ID: Internal Dimensions") {

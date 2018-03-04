@@ -60,6 +60,8 @@ public class draw0470 extends dxf12objects {
     
     public String CUT = "CUT";
     public String CREASE = "CREASE";
+    public String SAFETY = "SAFETY";
+    public String AUX ="Annotation";
     public int col = 1; // Line Colour
     public String ltype = "CONTINUOUS"; // Line Type
 // end attributes
@@ -102,11 +104,17 @@ public class draw0470 extends dxf12objects {
         
 	this.absMove(cofst, dmain-bofst+w1);
 	ins1=dblbend+cofst;	
-	folderflap(l1+cofst*2 ,tuckflap,0,0,ins1,ins1,tuckrad,tuckrad);
-	
-	this.relMove(0,-w1);
-	Line(-(l1+cofst*2), 0, CREASE);
-
+       
+        if(style.equals("0470 P/S & T/S")) {
+            psTopFlap_RC_Current(l1+cofst*2);
+            this.absMove(cofst, this.dmain - bofst);
+            Line(-(l1+cofst*2), 0, CREASE);
+        } else {
+            folderflap(l1+cofst*2 ,tuckflap,0,0,ins1,ins1,tuckrad,tuckrad);
+            this.relMove(0,-w1);
+            Line(-(l1+cofst*2), 0, CREASE);            
+        }
+        
 	if (dinr+dblbend-bofst<w1) { // extra to tuck flap
             this.absMove(cofst, dmain-bofst+w1);
             Line(0, -w1+dinr+dblbend-bofst, CUT);
@@ -375,66 +383,170 @@ public class draw0470 extends dxf12objects {
   } // SideSection
   
   
+   protected void psTopFlap_RC_Current(double dist) {
+  // Top Flap - Peel & Seal / Rippa Tape section    
+    double tabBang = 7;
+    double tabRip = 16.5;
+    double tabInrCutIn = 7.5;
+    double topCutIn = 17.5; //17.4235856;
+    double tabVertGap = 9.5;
+    double tabLen = 32;
+    double tabPsVert = 26;
+    double ps = 20;
+    double strght = this.tuckflap - (tabPsVert + tabRip);
+    double tabArcIn = 31.07454975, tabArcUp = 0.3511986, tabArcRad = 28.57521973; // Movements to center from x/ytmp
+    double topArcin = 41.27815623, topArcUp = 18.43147838, topArcRad = 33.83333337;  // Movements to center from x/ytmp
+    double xtmp = 0, ytmp = 0;
+    
+    // Right Side PS Tab Section
+    Line(-dist, 0, CREASE);
+    relMove(dist, 0);
+    Line(0, strght, CUT);
+//    this.relMove(lmain + (buffer * 2), 0);
+//    Line(0, strght, "CUTCRE6");
+//    this.relMove(-(lmain + (buffer * 2)), 0);
+    xtmp = this.xabs; // Store
+    ytmp = this.yabs;
+    Line(-tabLen, tabBang, SAFETY);
+    relMove(0, tabVertGap);
+    Line(tabLen - tabInrCutIn, 0, SAFETY);
+    // Tab
+    this.arc2(xtmp - tabArcIn, ytmp + tabArcUp, tabArcRad, 0.39235112, 34.41153183, xtmp, ytmp, CUT);
+    // Top Arc
+    this.arc2(xtmp - topArcin, ytmp + topArcUp, topArcRad, 356.72731750, 45.34770455, xtmp, ytmp, CUT);
+    
+    this.absMove(xtmp - topCutIn, ytmp + this.tuckflap - strght);
+  //  relMove(-topCutIn + tabInrCutIn, tabPsVert);
+    
+    Line(-dist + (topCutIn * 2), 0, CUT);
+    
+    // Left Side PS Tab Section
+    this.absMove(xtmp - dist, ytmp);
+    xtmp = this.xabs; // Store
+    ytmp = this.yabs;
+    
+    Line(0, -strght, CUT);
+    this.relMove(0, strght);
+    Line(tabLen, tabBang, SAFETY);
+    
+    relMove(0, tabVertGap);
+    Line(-tabLen + tabInrCutIn, 0, SAFETY);
+    // Tab
+    this.arc2(xtmp + tabArcIn, ytmp + tabArcUp, tabArcRad, 145.58846817, 179.60764888, xtmp, ytmp, CUT);
+    // Top Arc
+    this.arc2(xtmp + topArcin, ytmp + topArcUp, topArcRad, 134.65229545, 183.27268250, xtmp, ytmp, CUT);
+    
+
+   
+  // **** Peel & Seal / Rippa Tape ****
+  double psEdgeGap = 10;
+  double psTopDown = 4;
+  double psWidth = 20;
+  double ripperWidth = 4;
+  double psRipGap = 4;
+  double psTopLine = dist - (psEdgeGap * 2);
+  
+  this.absMove(-dist + cofst + psEdgeGap, dmain - bofst + w1 + tuckflap - psTopDown);  
+  
+  Line(psTopLine, 0, AUX);  
+  relMove(0, -psWidth);
+  Line(-psTopLine, 0, AUX);  
+  relMove(0, -psRipGap);
+  Line(psTopLine, 0, AUX);
+  relMove(0, -ripperWidth);
+  Line(-psTopLine, 0, AUX);
+  
+  TextInsert((psTopLine / 2) - 15, 14, "Peel & Seal", AUX);
+  TextInsert((psTopLine / 2) - 15, -1, "Rippa Tape", AUX);
+  
+  } // psTopFlap_RC_Current
+  
+
+  
   
 
   public void allowanceSetup() {
     
     switch (flute) {
       case "E":  // E flute 
-		dblbend=4;
-		bofst=1;
-		cofst=1;
-		lug=4;
-		l1=l+10;
-		w1=w+2;
-		w2=w+3;
-                wside = w2 - 1;
-		dmain=d+3;
-		dotr=dmain-bofst*2;
-		dinr=dotr-1;
+        dblbend=4;
+        bofst=1;
+        cofst=1;
+        lug=4;
+        l1=l+10;
+        dmain=d+3;
+        dotr=dmain-bofst*2;
+        dinr=dotr-1;
+        if(style.equals("0470 P/S & T/S")) {
+            w1=w+3;
+            w2=w+2;
+            wside = w2 - 1;
+        } else {
+            w1=w+2;
+            w2=w+3;
+            wside = w2 - 1;            
+        }
       break;// ==
       
       case "B": // B flute                                                                      
-		dblbend=6;
-		bofst=2;
-		cofst=2;
-		lug=4;
-		l1=l+14;
-		w1=w+3;
-		w2=w+6;
-                wside = w2 - 1; 
-		dmain=d+5;
-		dotr=dmain-bofst*2;
-		dinr=dotr-2;
+        dblbend=6;
+        bofst=2;
+        cofst=2;
+        lug=4;
+        l1=l+14; 
+        dmain=d+5;
+        dotr=dmain-bofst*2;
+        dinr=dotr-2;
+        if(style.equals("0470 P/S & T/S")) {
+            w1=w+5;
+            w2=w+3;
+            wside = w2 - 1;
+        } else {
+            w1=w+3;
+            w2=w+5;
+            wside = w2 - 1;           
+        }        
       break;// ==
       
       case "C": // C flute                                                                        
       case "EB":    
-		dblbend=9;
-		bofst=3;
-		cofst=2;
-		lug=5;
-		l1=l+20;
-		w1=w+8;
-		w2=w+18;
-		wside = w2 - 2;
-                dmain=d+8;
-		dotr=dmain-bofst*2;
-		dinr=dotr-2;
+        dblbend=9;
+        bofst=3;
+        cofst=2;
+        lug=5;
+        l1=l+20;
+        dmain=d+8;
+        dotr=dmain-bofst*2;
+        dinr=dotr-2;
+        if(style.equals("0470 P/S & T/S")) {
+            w1=w+9;
+            w2=w+5;
+            wside = w2 - 2;
+        } else {
+            w1=w+5;
+            w2=w+9;
+            wside = w2 - 2;          
+        }          
       break; // ==
       
       case "BC": //                                                                                   
-		dblbend=14;
-		bofst=5;
-		cofst=4;
-		lug=5;
-		l1=l+30;
-		w1=w+7;
-		w2=w+14;
-                wside = w2 - 4;
-		dmain=d+12;
-		dotr=dmain-bofst*2;
-		dinr=dotr-3;
+        dblbend=14;
+        bofst=5;
+        cofst=4;
+        lug=5;
+        l1=l+30;
+        dmain=d+12;
+        dotr=dmain-bofst*2;
+        dinr=dotr-3;
+        if(style.equals("0470 P/S & T/S")) {
+            w1=w+14;
+            w2=w+7;
+            wside = w2 - 4;
+        } else {
+            w1=w+7;
+            w2=w+14;
+            wside = w2 - 4;        
+        }        
       break; // ==
     } 
     
@@ -449,6 +561,10 @@ public class draw0470 extends dxf12objects {
     
     if (d > l) {
       JOptionPane.showMessageDialog(null, "MAKE-UP WARNING /n/r Depth greater than Length - Extra bend may be needed in the turned in depth.", "Warning", JOptionPane.ERROR_MESSAGE);   
+    } // if
+    
+    if (this.tuckflap < 55 && style.equals("0470 P/S & T/S")) {
+      JOptionPane.showMessageDialog(null, "MAKE-UP WARNING /n/r Peel & Seal Flap < 55mm likely to cause poor make-up & sealing.", "Warning", JOptionPane.ERROR_MESSAGE);   
     } // if
     
   }
