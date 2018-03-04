@@ -132,6 +132,13 @@ public class draw0470 extends dxf12objects {
         this.Xaxis = -1;
         this.Yaxis = 1;        
         this.DrawBtmAndFront();
+        
+        this.Xaxis = 1;
+        this.Yaxis = 1;   
+        if(style.equals("0470 P/S & T/S")) {
+            absMove(0, dmain);
+            LidLockFlap();
+        }
     
     dxf +="  0\r\n";
     dxf +="ENDSEC\r\n";
@@ -462,8 +469,46 @@ public class draw0470 extends dxf12objects {
   } // psTopFlap_RC_Current
   
 
-  
-  
+private void LidLockFlap() {
+
+    double lidTabAdd = 1.5; // Increase of Lid Tab over Slot (x2)
+    double lidTab = (int)Math.floor(w1 * 0.4); // Width of flap
+    double lidtabD = (int)Math.floor(dmain * 0.2); // Depth of Flap
+    int lkflp = (int) Math.round((this.w1 / 3) * 1.33);
+    double fg = (this.w1 - lkflp) / 2; // lock flap side gap 
+     
+    if (lidTab > 65) { // Floor & Ceiling
+      if (lidTab > 65) {lidTab = 65;}
+      if (lidTab < 40) {lidTab = 40;}
+    }
+
+  // Lid Main Body
+    double flapBackCutAngle = 0;
+    double hyp = (fg + lidTabAdd) + (lkflp - (lidTabAdd * 2));
+    double flapFrontCutAngle = (int) ((fg + lkflp) - Math.sqrt(Math.pow(hyp, 2) - Math.pow(lidtabD, 2))) + 2;
+    if (flapFrontCutAngle < 1) {  // stop problem with very long, short width flaps - Rad doesnt meet the edge
+      flapFrontCutAngle = 0;
+      JOptionPane.showMessageDialog(null, "flapFrontCutAngle = 0. Flap Angle cut not properly calculated.");
+    }
+    
+    this.relMove(0, fg - bofst);
+    
+    Line(lidtabD, flapBackCutAngle, CUT);
+    Line(0, lkflp - flapBackCutAngle - flapFrontCutAngle, CUT);
+    Line(-lidtabD, flapFrontCutAngle, CUT);
+    Line(0, -lkflp, CREASE);
+
+    // Lock Slot
+    absMove(0, dmain - (bofst * 2));
+    this.relMove(fg + lidTabAdd , this.dblbend);
+    Line(0, -dblbend, CUT);
+    Line(lkflp - (lidTabAdd * 2), 0, CUT);
+    Line(0, dblbend, CUT);
+     
+}  // LidLockFlap
+ 
+
+
 
   public void allowanceSetup() {
     
