@@ -51,31 +51,31 @@ public class BoardSz {
     } // this.asymmetrical == true
     
     System.out.println("BroadSz.CalcR2R *Blank Size: " + blkS1  + " x " + blkN2);
-    if ((blkInsetS1 != blkS1 || blkInsetN2 != blkN2) && this.asymmetrical == false) { // Interlocked T
-      if (noUpS1 * noUpIntLkN2 >= 1) {
-        msg += "IntLk Std Feed: " + this.noUpIntLkS1 + "up " + (blkS1 + (blkInsetS1 * (this.noUpIntLkS1 - 1)))  + " x " + this.noUpIntLkN2 + "up " + (blkN2 + (blkInsetN2 * (this.noUpIntLkN2 - 1)));  
-        System.out.println("blkN2==" + blkN2 + "*blkInsetN2=" + blkInsetN2);
-      }
-      if (noUpIntLkRevS1 * noUpRevN2 >= 1) {
-        msg += "<br>IntLk Rev Feed: " + noUpIntLkRevS1 + "up " + (blkN2 + (blkInsetN2 * (noUpIntLkRevS1 - 1))) + " x " + this.noUpIntLkRevN2 + "up " + (blkS1 + (blkInsetS1 * (noUpIntLkRevN2 - 1))); 
-      }       
-      
-    } else if ((blkInsetS1 != blkS1 || blkInsetN2 != blkN2) && this.asymmetrical == true) { // Interlocked L
-      if (noUpS1 * noUpIntLkN2 > 1) {
-        msg += "IntLk Std Feed: " + noUpIntLkS1 + "up " + rule2ruleS1  + " x " + this.noUpIntLkN2 + "up " + (blkN2 + (blkInsetN2 * (this.noUpIntLkN2 - 1))) + "<br> \n";  
-      }
-      if (noUpIntLkRevS1 * noUpRevN2 >= 1) {
-        msg += "<br>IntLk Rev Feed: " + noUpIntLkRevS1 + "up " + (blkN2 + (blkInsetN2 * (noUpIntLkRevS1 - 1))) + " x " + this.noUpRevN2 + "up " + noUpRevN2*blkS1 + "<br>2 \n"; 
-      }        
-      
-    } else { // Non Interlocked
+//    if ((blkInsetS1 != blkS1 || blkInsetN2 != blkN2) && this.asymmetrical == false) { // Interlocked T
+//      if (noUpS1 * noUpIntLkN2 >= 1) {
+//        msg += "IntLk Std Feed: " + this.noUpIntLkS1 + "up " + (blkS1 + (blkInsetS1 * (this.noUpIntLkS1 - 1)))  + " x " + this.noUpIntLkN2 + "up " + (blkN2 + (blkInsetN2 * (this.noUpIntLkN2 - 1)));  
+//        System.out.println("blkN2==" + blkN2 + "*blkInsetN2=" + blkInsetN2);
+//      }
+//      if (noUpIntLkRevS1 * noUpRevN2 >= 1) {
+//        msg += "<br>IntLk Rev Feed: " + noUpIntLkRevS1 + "up " + (blkN2 + (blkInsetN2 * (noUpIntLkRevS1 - 1))) + " x " + this.noUpIntLkRevN2 + "up " + (blkS1 + (blkInsetS1 * (noUpIntLkRevN2 - 1))); 
+//      }       
+//      
+//    } else if ((blkInsetS1 != blkS1 || blkInsetN2 != blkN2) && this.asymmetrical == true) { // Interlocked L
+//      if (noUpS1 * noUpIntLkN2 > 1) {
+//        msg += "IntLk Std Feed: " + noUpIntLkS1 + "up " + rule2ruleS1  + " x " + this.noUpIntLkN2 + "up " + (blkN2 + (blkInsetN2 * (this.noUpIntLkN2 - 1))) + "<br> \n";  
+//      }
+//      if (noUpIntLkRevS1 * noUpRevN2 >= 1) {
+//        msg += "<br>IntLk Rev Feed: " + noUpIntLkRevS1 + "up " + (blkN2 + (blkInsetN2 * (noUpIntLkRevS1 - 1))) + " x " + this.noUpRevN2 + "up " + noUpRevN2*blkS1 + "<br>2 \n"; 
+//      }        
+//      
+//    } else { // Non Interlocked
       if (this.noUpS1 * this.noUpN2 > 0) {
         msg += "Std Feed: " + this.noUpS1 + "up " + noUpS1*blkS1  + " x " + this.noUpN2 + "up " + noUpN2*blkN2 + " \n";  
       }
       if (noUpRevS1 * noUpRevN2 > 0) {
         msg += "<br>Rev Feed: " + this.noUpRevS1 + "up " + noUpRevS1*blkN2 + " x " + this.noUpRevN2 + "up " + noUpRevN2*blkS1 + " \n";  
       }
-    }
+ //   }
     System.out.println("msg=" + msg);
     return msg + "</html>";
   } // CalcR2R

@@ -37,51 +37,51 @@ public class parcelSizes {
     
     // Parcel sizes
     if (this.odLength > 240 || this.odWidth > 165 || this.odDepth > 5) {
-      msg += "***RM Letter up to 100g 240x165x5 - TOO BIG ***\n";
+      msg += "***Royal Mail Letter up to 100g 240x165x5 - TOO BIG ***\n";
     } else {
-      msg += "RM Letter up to 100g - OK\n";
+      msg += "Royal Mail Letter up to 100g - OK\n";
     }// end of if
     
     if (this.odLength > 353 || this.odWidth > 250 || this.odDepth > 25) {
-      msg += "***RM Large Letter up to 750g 353x250x25 - TOO BIG ***\n";
+      msg += "***Royal Mail Large Letter up to 750g 353x250x25 - TOO BIG ***\n";
     } else {
-      msg += "RM Large Letter up to 750g - OK\n";
+      msg += "Royal Mail Large Letter up to 750g - OK\n";
     }// end of if
     
     
     if (this.odLength > 415 || this.odWidth > 203 || this.odDepth > 25) {
-      msg += "***Min Letterbox (Lil Pkg Data) 415x203x25 - TOO BIG ***\n";
+      msg += "***Min Letterbox (Research Data) 415x203x25 - TOO BIG ***\n";
     } else {
-      msg += "Min Letterbox (Lil Pkg Data) - OK\n";
+      msg += "Min Letterbox (Research Data) - OK\n";
     }// end of if
     
-    if (this.odLength > 415 || this.odWidth > 254 || this.odDepth > 33) { // ** Lil Pkg data
-      msg += "***TYPICAL Letterbox (Lil Pkg Data) 415x254x33 - TOO BIG ***\n";
+    if (this.odLength > 415 || this.odWidth > 254 || this.odDepth > 33) { // ** Research data
+      msg += "***TYPICAL Letterbox (Research Data) 415x254x33 - TOO BIG ***\n";
     } else {
-      msg += "TYPICAL Letterbox (Lil Pkg Data) - OK\n";
+      msg += "TYPICAL Letterbox (Research Data) - OK\n";
     }// end of if
     
-    if (this.odLength > 415 || this.odWidth > 305 || this.odDepth > 38) { // ** Lil Pkg data
-      msg += "***Largest Letterbox (Lil Pkg Data) 415x254x38 - TOO BIG ***\n";
+    if (this.odLength > 415 || this.odWidth > 305 || this.odDepth > 38) { // ** Research data
+      msg += "***Largest Letterbox (Research Data) 415x254x38 - TOO BIG ***\n";
     } else {
-      msg += "Largest Letterbox (Lil Pkg Data) - OK\n";
+      msg += "Largest Letterbox (Research Data) - OK\n";
     }// end of if
     
     if (this.odLength > 450 || this.odWidth > 350 || this.odDepth > 160) {
-      msg += "***RM Small Parcel up to 2kg 450x350x160 - TOO BIG ***\n";
+      msg += "***Royal Mail Small Parcel up to 2kg 450x350x160 - TOO BIG ***\n";
     } else {
-      msg += "RM Small Parcel up to 2kg - OK\n";
+      msg += "Royal Mail Small Parcel up to 2kg - OK\n";
     }// end of if
     
     if (this.odLength > 610 || this.odWidth > 460 || this.odDepth > 460) {
-      msg += "***RM Medium Parcel up to 20kg 610x460x460 - TOO BIG ***\n";
+      msg += "***Royal Mail Medium Parcel up to 20kg 610x460x460 - TOO BIG ***\n";
     } else {
-      msg += "RM Medium Parcel up to 20kg - OK\n";
+      msg += "Royal Mail Medium Parcel up to 20kg - OK\n";
     }// end of if
     
 
     
-    JOptionPane.showMessageDialog(null, msg, "Info", JOptionPane.INFORMATION_MESSAGE);
+    JOptionPane.showMessageDialog(null, msg, "Postal Info", JOptionPane.INFORMATION_MESSAGE);
     
     
   }

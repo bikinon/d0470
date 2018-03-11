@@ -75,7 +75,7 @@ public class draw0470 extends dxf12objects {
         // start in main depth panel - Bottom Right Side
 
 	  // SelectOn();
-        this.DrawTOE(wside - cofst, slotVert);
+        this.DrawTOE(wside - bofst, slotVert);
         this.absMove(0,0); // Move back to start
         
         this.relMove(cofst,-bofst);
@@ -89,17 +89,17 @@ public class draw0470 extends dxf12objects {
         this.absMove(0,0); // Move back to start
         this.DrawBtmAndFront();
 
-	this.absMove(wside - cofst, 0); //this.absMove(w2+cofst*2+bofst,0); // return to origin ???????????
+	this.absMove(wside - bofst, 0); //this.absMove(w2+cofst*2+bofst,0); // return to origin ???????????
 	flap=(int) (l1/2); // base flap
         if ((flap > w1+bofst) && (flap < w1+bofst+cofst*2)) {
             flap=w1+bofst;
 	}
         Line(0, -flap, CUT);
-	Line(-(wside - (cofst * 2)),0, CUT);
+	Line(-(wside - (cofst + bofst)),0, CUT);
 
-        this.absMove(-l1 - wside + cofst, 0);
+        this.absMove(-l1 - wside + bofst, 0);
         Line(0, -flap, CUT);
-	Line(wside - (cofst * 2),0, CUT);
+	Line(wside - (cofst + bofst),0, CUT);
 
         
 	this.absMove(cofst, dmain-bofst+w1);
@@ -127,7 +127,7 @@ public class draw0470 extends dxf12objects {
         slotHorz = -1;
         this.Xaxis = -1;
         this.Yaxis = 1;
-        this.DrawTOE(wside - cofst, slotVert);
+        this.DrawTOE(wside - bofst, slotVert);
         this.absMove(-l1,0);
         this.Xaxis = -1;
         this.Yaxis = 1;        
@@ -166,7 +166,7 @@ public class draw0470 extends dxf12objects {
     // Starts @ Btm of Flap on Right CUT...
     
     if (ins1 > 0) {
-      Line(-ins1, 0, "CUTCRE_6X6");
+      Line(-ins1, 0, CUT); // Right side Btm
     }
     Line(-(dis-ins1-ins2), 0, CREASE);
     
@@ -212,9 +212,10 @@ public class draw0470 extends dxf12objects {
     Line(0, dblbend-bofst, this.CUT);
     Line(0,dinr, this.CUT);
 
-// Draw the lugs section
+// Draw the Lugs section first
 	if (dis<50) { // === 0 lugs ===
-	  Line( dis-cofst*2, 0, this.CUT);
+	  Line( dis-cofst, 0, this.CUT);
+          
         } else if (dis<121) { // === 1 lug ===
 		y=(int) (dis/3);
 		x=dis-y*2; // div by 3rds
@@ -223,9 +224,9 @@ public class draw0470 extends dxf12objects {
 		Line( x-(lugAng*2), 0, this.CUT);
 		Line(lugAng, -lug, this.CUT);
 		Line( y, 0, this.CUT);
-        } else if (dis>900) { // === 3 lugs ===
-		
-            y=(int) (dis/8);
+        
+        } else if (dis>900) { // === 3 lugs ===	
+                y=(int) (dis/8);
 		x=y;
 		Line( y-cofst, 0, this.CUT); // cut then lug
 		Line(lugAng, lug, this.CUT);
@@ -240,13 +241,14 @@ public class draw0470 extends dxf12objects {
 		Line( x-(lugAng*2), 0, this.CUT);
 		Line(lugAng, -lug, this.CUT);
 		Line( y, 0, this.CUT);
+
         } else { // === 2 lugs ==============
 		y=(int) (dis/6)/1;
 		x=y; // lug size is width bend div by 6 to std with louth
 //		y=y-cofst; // offset reduction
-  	if (x < minLug) {
-	  x = minLug;
-        }
+                if (x < minLug) {
+                  x = minLug;
+                }
 		Line( y-cofst, 0, this.CUT); // cut then lug
 		Line(lugAng, lug, this.CUT);
 		Line( x-(lugAng*2), 0, this.CUT);
@@ -272,6 +274,7 @@ public class draw0470 extends dxf12objects {
    // Lock holes
     if (dis < min0Lug) { // === 0 lugs ===
       Line( -dis, 0, CREASE);
+
     } else if (dis < min1Lug) { // === 1 lug ===
       Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz;
@@ -281,6 +284,7 @@ public class draw0470 extends dxf12objects {
       this.Yaxis = 1;   
       //    SetCurrent( Find( "Crease" ) );
       Line( -y, 0, CREASE);
+
     } else if (dis>min3Lugs) { // === 3 lugs ===
       Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz;
@@ -304,6 +308,7 @@ public class draw0470 extends dxf12objects {
       this.Yaxis = 1;   
       //    SetCurrent( Find( "Crease" ) );
       Line( -y, 0, CREASE);
+
     } else { // === 2 lugs ==============
       Line( -y, 0, CREASE);
       this.Xaxis = -1 * slotHorz; // Quick fix - using slotHorz the whole thing needs re-writing
@@ -322,8 +327,7 @@ public class draw0470 extends dxf12objects {
     }
     
     relMove(cofst, -bofstL); // move back to starting position
-        
-    
+          
     return this.dxf; // this.dxf;
   } // DrawTOE
   
@@ -373,19 +377,19 @@ public class draw0470 extends dxf12objects {
 
   private void DrawBtmAndFront() {
 	Line(cofst,-bofst, CUT);
-	Line(0,-w2, CUT);
+	Line(0,-w2, CUT); // Btm Base 
         
   	// SelectOn();
 	Line(-bofst-cofst,-cofst*2, CUT); // inner flap - Side Goes inside TOE
 	Line(wside, 0, CUT); //Line(w2-cofst,0, CUT);
-	Line(0,-dinr+cofst, CUT);
+	Line(0,-(dinr-(cofst+bofst)), CUT);
 	Line(-wside, 0, CUT); //Line(-w2+cofst,0, CUT);
   	// SelectOff();
 	
 	Line(-l1+bofst*2,0, CUT);
 	this.relMove(l1-bofst*2,0);
 	  // SelectOn();
-	Line(0,dinr-cofst, CREASE);      
+	Line(0,dinr-(cofst+bofst), CREASE);      
         
   } // SideSection
   
@@ -500,11 +504,32 @@ private void LidLockFlap() {
 
     // Lock Slot
     absMove(0, dmain - (bofst * 2));
-    this.relMove(fg + lidTabAdd , this.dblbend);
+    this.relMove(fg + lidTabAdd, this.dblbend);
     Line(0, -dblbend, CUT);
     Line(lkflp - (lidTabAdd * 2), 0, CUT);
     Line(0, dblbend, CUT);
-     
+    
+    this.relMove(0, this.dblbend); 
+    Line(-lkflp + (lidTabAdd * 2), 0, CUT);
+    
+//    double slot = this.dblbend + 6;
+//    Arc3ptRad oArc = new Arc3ptRad();
+//    oArc.pt1X = this.xabs; // Absolute Values
+//    oArc.pt1Y = this.yabs;
+//    oArc.pt2X = this.xabs + ((lkflp - (lidTabAdd * 2)) / 2);
+//    oArc.pt2Y = this.yabs - slot/ 2;
+//    oArc.pt3X = this.xabs;
+//    oArc.pt3Y = this.yabs - slot;
+//    oArc.FindCtrRad3PtOnArc();
+//    
+//    double aDat[] = oArc.ArcCenter(xabs, this.yabs, xabs - (lkflp - (lidTabAdd * 2)), yabs, oArc.radius, 3, "");
+//    this.arc2(oArc.ctrX, oArc.ctrY, oArc.radius, oArc.EndAngle, oArc.StartAngle, oArc.pt3X, oArc.pt3Y, CUT);
+
+    this.absMove(-bofst, -(w2 + dinr + bofst));
+    relMove(fg-cofst, 0);
+    Line(0, lidtabD, CUT);
+    Line(lkflp - (lidTabAdd * 2) + (cofst * 2), 0, CUT);
+    Line(0, -lidtabD, CUT);
 }  // LidLockFlap
  
 
@@ -566,17 +591,17 @@ private void LidLockFlap() {
         if(style.equals("0470 P/S & T/S")) {
             w1=w+9;
             w2=w+5;
-            wside = w2 - 2;
+            wside = w2 - (bofst - cofst);
         } else {
             w1=w+5;
             w2=w+9;
-            wside = w2 - 2;          
+            wside = w2 - (bofst - cofst);          
         }          
       break; // ==
       
       case "BC": //                                                                                   
         dblbend=14;
-        bofst=5;
+        bofst=4;
         cofst=4;
         lug=5;
         l1=l+30;
@@ -594,11 +619,12 @@ private void LidLockFlap() {
         }        
       break; // ==
     } 
+    //wside = w2 - (bofst - cofst);
     
-    this.blks1 = tuckflap + w1 + dmain + w2 + dinr;
-    this.blkn2 = l1 + w1 + w1;
+    this.blks1 = tuckflap + w1 + dmain + w2 + dinr - bofst;
+    this.blkn2 = l1 + wside + wside;
     // Actually 1st way - but taken from the d0421+ prog
-    double blks1_2 = lug + dinr + dblbend + dotr + dmain + w2 + dinr; // this.blkn2 * 2;
+    double blks1_2 = lug + dinr + dblbend + dotr + dmain + w2 + dinr - bofst; // this.blkn2 * 2;
     if (blks1_2 > this.blks1) {
         blks1_2 = this.blks1;
     }
